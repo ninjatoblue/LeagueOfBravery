@@ -1,0 +1,132 @@
+{% extends '::base.html.twig' %}
+{% block titre %}{{ utilisateur.pseudo }}{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        .page-header{
+            margin-top:0;
+            margin-bottom:15px;
+            padding-bottom:0;
+        }
+        .well{
+            padding-top:10px;
+        }
+        textarea{
+            width:98%;
+            resize:none;
+            height:auto;
+        }
+        .img-polaroid{
+            max-height:225px;
+            max-width:250px;
+        }
+        .page-header{
+            width:100% !important;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    <div class="span8">
+        <div class="page-header">
+            <h3>Informations</h3>
+        </div>
+        <p class="pull-right">
+            <img src="{{ asset('avatar/') }}{{ utilisateur.avatar }}" class="img-polaroid" />
+        </p>
+        <strong>Pseudo LoL :</strong> {{ utilisateur.pseudo }}<br /><br />
+        <strong>Rang :</strong> {{ utilisateur.rang }}<br /><br />
+        {% if utilisateur.emailHide == 0 or app.session.get('rang') == "Administrateur" %}<strong>Email :</strong> {{ utilisateur.email }}<br /><br />{% endif %}
+        <strong>Sexe :</strong> {% if utilisateur.sexe == "M" %}Homme{% else %}Femme{% endif %}<br /><br />
+        <strong>Inscription :</strong> {{ utilisateur.dateInscription|date('d/m/Y') }}<br /><br />
+        <strong>Dernière connexion :</strong> {% if utilisateur.dateConnexion %}{{ utilisateur.dateConnexion|date('d/m/Y à G\\hi') }}{% else %}Jamais{% endif %}<br /><br />
+        <strong><font color="green">Victoire(s) :</font></strong> {{ utilisateur.nbVictoire }}<br /><br />
+        <strong><font color="red">Défaite(s) :</font></strong> {{ utilisateur.nbDefaite }}<br /><br />
+        <strong>Ratio V/D :</strong> {{ utilisateur.ratio }}<br /><br />
+        {% if app.session.get('rang') == "Administrateur" %}<strong>Dernière ip :</strong> {{ utilisateur.IpMembre }}<br /><br />{% endif %}
+        {% if utilisateur.banni %}<p style="color:red;font-size:1.5em;font-weight:bold;">Ce membre est banni</p>{% endif %}
+    </div>
+        
+    <div class="span4">
+        <div class="page-header">
+            <h3>Action(s)</h3>
+        </div>
+        <center>
+        {% if app.session.get('id') != app.request.attributes.get('id') %}
+            <a href="{{ path('mp_nouveau', { 'id': utilisateur.id } ) }}" class="btn btn-primary btn-large"><i class="icon-white icon-envelope"></i> Envoyer un message</a>
+        {% else %}
+            <a href="{{ path('utilisateur_preferences') }}" class="btn btn-info btn-large"><i class="icon-white icon-wrench"></i> Modifier mon profil</a>
+        {% endif %}
+        {% if app.session.get('rang') == 'Administrateur' and app.session.get('id') != utilisateur.id %}
+                <br /><br />
+            {% if utilisateur.banni == 0 %}
+                <a href="{{ path('utilisateur_ban', {'id':utilisateur.id }) }}" class="btn btn-danger btn-large"><i class="icon-white icon-ban-circle"></i> Bannir</a>
+            {% else %}
+                <a href="{{ path('utilisateur_ban', {'id':utilisateur.id }) }}" class="btn btn-success btn-large"><i class="icon-white icon-ok-sign"></i> Débannir</a>
+            {% endif %}
+        {% endif %}
+        </center>
+    </div>
+</div>
+
+<div class="page-header"><h3>Équipe(s)</h3></div>
+<div class="row-fluid">
+    {% if utilisateurequipe|length > 0 %}
+        <table class="table table-condensed table-striped">
+            <thead>
+                <td><center><strong>Nom</strong></center></td>
+                <td><center><strong>Date de création</strong></center></td>
+                <td><center><strong>Site</strong></center></td>
+                <td><center><strong>Chef de l'équipe</strong></center></td>
+            </thead>
+            <tbody>
+    {% for ue in utilisateurequipe %}
+                <tr>
+                    <td><center><a href="{{ path('equipe_profil', {'id': ue.equipe.id } ) }}">[{{ ue.equipe.tag }}]{{ ue.equipe.nom }}</a></center></td>
+                    <td><center>{{ ue.equipe.dateCreation|date('d/m/Y') }}</center></td>
+                    <td><center>{% if ue.equipe.site is not null %}<a href="{{ ue.equipe.site }}">{{ ue.equipe.site }}</a>{% else %}Non renseigné{% endif %}</center></td>
+                    <td><center><a href="{{ path('utilisateur_profil', {'id': ue.equipe.chef.id } ) }}">{% if ue.equipe.chef.id == app.session.get('id') %}<strong>{{ ue.equipe.chef.pseudo }}</strong>{% else %}{{ ue.equipe.chef.pseudo }}{% endif %}</a></center></td>
+                </tr>
+    {% endfor %}
+            </tbody>
+        </table>
+  {% else %}
+      <br /><center><p>{{ utilisateur.pseudo }} ne fait partie d'aucune équipe.</p>
+    {% endif %}
+</div>
+
+<div class="row-fluid">
+    <div class="page-header"><h3>Les commentaires</h3></div>
+{% for c in commentaires %}
+        <div class="media">
+            <a class="pull-left" href="#"><img src="{{ asset('avatar/') }}{{ c.auteur.avatar }}" class="img-polaroid" style="max-height:64px;max-width:65px;" /></a>
+            <div class="media-body">
+                <h4 class="media-heading">{{ render(controller('SiteUtilisateurBundle:Utilisateur:colorisation', { 'utilisateur': c.auteur.id })) }}<small> - {{ c.date|date('d/m/Y à G\\hi') }}</small></h4>
+                {{ c.contenu }}
+            </div>
+        </div>
+{% else %}
+    <center><p>Aucun commentaire pour ce profil.</p></center>
+{% endfor %}
+ </div>   
+
+<div class="row-fluid">
+    <form action="" method="POST">
+        <div class="page-header"><h3>Ajout d'un commentaire</h3></div>
+    {% if app.session.get('id') %}
+        <div class="row-fluid">
+            {{form_row(form.contenu)}}
+            {{ form_rest(form) }}
+            <br /><input type="submit" class="btn btn-large btn-info" value="Envoyer"/>
+        </div>
+    </form>
+    {% else %}
+    </form>
+    <center>
+        <a href="{{ path('utilisateur_connexion') }}"><button class="btn btn-primary btn-large"><i class="icon-white icon-user"></i> Connexion</button></a>
+        <a href="{{ path('utilisateur_inscription') }}"><button class="btn btn-success btn-large"><i class="icon-white icon-pencil"></i> Inscription</button></a>
+    </center>
+    {% endif %}
+</div>
+{% endblock %}

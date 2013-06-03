@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Connexion {% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        ul li{
+            list-style:none;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+<div class="row-fluid">
+    <form class="well span5" style="float:none;margin:0 auto;" action="{{ path('utilisateur_connexion') }}" method="POST">
+    {% include 'SitePageBundle:include:flash.html.twig' %}
+    {{ form_row(form.pseudo, { 'attr': {'class': 'span12'} }) }}
+    {{ form_row(form.password, { 'attr': {'class': 'span12'} }) }}
+    {{ form_rest(form) }}
+        <br /><center><a href="{{ path('utilisateur_inscription') }}">M'inscrire</a> - <a href="{{ path('utilisateur_mdpoublie') }}">Mot de passe oublié</a></center><br />
+        <input type="submit" class="btn btn-primary" value="Connexion" />
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+index:
+    pattern:  /
+    defaults: { _controller: SitePageBundle:Page:index }
+    
+contact:
+    pattern: /contact
+    defaults: { _controller: SitePageBundle:Page:contact }
+    
+mentions:
+    pattern: /mentions-legales
+    defaults: { _controller: SitePageBundle:Page:mentions }
+    
+apropos:
+    pattern: /a-propos
+    defaults: { _controller: SitePageBundle:Page:apropos }
+    
+livredor:
+    pattern: /livre-dor
+    defaults: { _controller: SitePageBundle:Page:livredor }
+    
+theme:
+    pattern: /themes/{id}
+    defaults: { _controller: SitePageBundle:Page:theme, id: null }
+    requirements:
+      id: \d+
+      
+themes:
+    pattern: /themes-lolilol
+    defaults: { _controller: SitePageBundle:Page:themes }
+    requirements:
+        _method: _internal

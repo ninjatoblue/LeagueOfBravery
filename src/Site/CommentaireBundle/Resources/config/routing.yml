@@ -1,0 +1,7 @@
+commentaire_utilisateur_ajouter:
+    pattern:  /membre/commentaire/ajouter
+    defaults: { _controller: SiteCommentaireBundle:CommentaireUtilisateur:ajouter }
+    
+commentaire_utilisateur_supprimer:
+    pattern:  /membre/commentaire/supprimer/{id}
+    defaults: { _controller: SiteCommentaireBundle:CommentaireUtilisateur:supprimer }

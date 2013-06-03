@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+{% block titre %}{{ utilisateur.pseudo }}{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        textarea{
+            width:98%;
+            height:180px;
+            resize:none;
+        }
+        input{
+            width:98%;
+        }
+        select{
+            width:101%
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    <div class="row-fluid">
+        <div class="span6">
+            <div class="page-header"><h3>Préférences</h3></div>
+            <form action="{{ path('utilisateur_preferences') }}" method="POST">
+                {{ form_row(formInfo.poste) }}
+                <label class="checkbox">{{ form_widget(formInfo.emailAuth) }}{{ form_label(formInfo.emailAuth) }}</label>
+                <label class="checkbox">{{ form_widget(formInfo.emailHide) }}{{ form_label(formInfo.emailHide) }}</label>
+                {{ form_rest(formInfo) }}
+                <input type="submit" class="btn btn-primary" value="Modifier"/>
+            </form>
+            
+            <div class="page-header"><h3>Mot de passe</h3></div>
+            <form class="form" action="{{ path('utilisateur_preferences') }}" method="POST">
+                {{ form_row(formMdp.ancienmdp) }}
+                {{ form_row(formMdp.newmdp) }}
+                {{ form_row(formMdp.renewmdp) }}
+                {{ form_rest(formMdp) }}
+                <br /><input type="submit" class="btn btn-primary" value="Modifier"/>
+            </form>
+        </div>
+        <div class="span6">
+            <div class="page-header"><h3>Avatar</h3></div>
+            <center><img src="{{ asset('avatar/') }}{{ utilisateur.avatar }}" class="img-polaroid" style="max-height:200px;max-width:200px;" /></center><br />
+            <form class="form" action="{{ path('utilisateur_preferences') }}" method="POST" {{ form_enctype(formAvatar) }}>
+                {{ form_widget(formAvatar.avatar) }}<br />
+                {{ form_rest(formAvatar) }}<br />
+                <input type="submit" class="btn btn-primary" value="Modifier"/><br />
+            </form>
+
+            <div class="page-header"><h3>Email</h3></div>
+            <form class="form" action="{{ path('utilisateur_preferences') }}" method="POST">
+                {{ form_row(formEmail.email) }}
+                <br /><input type="submit" class="btn btn-primary" value="Modifier"/>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+$('#myTab a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+})
+</script>
+{% endblock %}

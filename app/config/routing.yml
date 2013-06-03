@@ -1,0 +1,19 @@
+# Commentaire
+site_commentaire:
+    resource: "@SiteCommentaireBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# Utilisateur
+site_utilisateur:
+    resource: "@SiteUtilisateurBundle/Resources/config/routing.yml"
+    prefix:   /membre
+    
+# Utilisateur -> Equipe
+utilisateur_equipe:
+    resource: "@SiteUtilisateurBundle/Resources/config/routing_equipe.yml"
+    prefix:   /equipe
+    
+# Page
+site_page:
+    resource: "@SitePageBundle/Resources/config/routing.yml"
+    prefix:   /

@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Nouveau message{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        ul li{
+            list-style:none;
+        }
+        textarea{
+            width:98%;
+            height:200px;
+            resize:none;
+        }
+        select{
+            width:100%;
+        }
+        input{
+            width:98%;
+            color:black;
+        }
+        h3{
+            margin-top:0;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    {% include 'SiteUtilisateurBundle:message:menu.html.twig' %}
+    <form class="span9" action="{{ path('mp_nouveau') }}" method="POST">
+        <div class="page-header" style="margin-top:0;">
+            <h3>Nouveau message privé</h3>
+        </div>
+        <div class="row-fluid">
+            <div class="span8">{{ form_row(form.titre) }}</div>
+            <div class="span4">{{ form_row(form.receveur) }}</div>
+        </div>
+        {{ form_row(form.contenu) }}
+        {{ form_rest(form) }}
+        <br /><input type="submit" class="btn" value="Envoyer" />
+    </form>
+</div>
+{% endblock %}

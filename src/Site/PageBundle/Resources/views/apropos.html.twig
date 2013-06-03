@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+{% block titre %}A propos | WebenoX{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        ul li{
+            list-style:none;
+        }
+        textarea{
+            width:98.5%;
+            height:200px;
+            resize:none;
+        }
+        input{
+            width:98.5%;
+        }
+        table{
+            width:100%;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    <div class="span6">
+        <div class="page-header"><h2>L'entreprise</h2></div>
+        <center><img src="{{ asset('img/webenox_banniere.png') }}" alt="WebenoX" title="WebenoX" /></center><br />
+        <p><strong>WebenoX</strong> est une auto-entreprise créée le 01 Février 2013 par Mr <strong>BURGEAT Gauthier</strong>.<br />
+        Sa principale fonction est la création / refonte de sites internet pour particuliers et entreprises.</p>
+        <p><strong>Identifiant SIRET :</strong> 790 900 096 00013<br />
+        <strong>Lieu de résidence :</strong> 59400 Cambrai<br />
+        <strong>APE :</strong> 6201Z Programmation Informatique<br />
+        <strong>Date de prise d'activité :</strong> 01/03/2013<br />
+        <strong>Courriel :</strong> contact@webenox.fr<br />
+        <strong>Téléphone :</strong> 06.67.03.32.18</p><br />
+    </div>
+    <div class="span6">
+        <div class="page-header"><h2>Le créateur</h2></div>
+        <center><img src="{{ asset('img/xenox.jpg') }}" alt="XenoX" title="XenoX" /></center>
+        <br /><br /><br />Actuellement étudiant en développement web, je suis vraiment passionné par ce domaine depuis l'âge de 14 ans.<br /><br />
+        Qualifié de "génie" par mes professeurs, ils m'ont en quelque sorte donné confiance en moi.<br /><br />
+        Ce qui m'a permis de me lancer en tant qu'auto-entrepreneur et de faire de ma passion un métier.
+    </div>
+</div>
+{% endblock %}

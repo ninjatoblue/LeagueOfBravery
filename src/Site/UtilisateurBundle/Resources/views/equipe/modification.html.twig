@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+{% block titre %}{{ equipe.nom }}{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        textarea{
+            width:98%;
+            height:250px;
+            resize:none;
+        }
+        input{
+            width:98%;
+        }
+        select{
+            width:101%
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    
+    <div class="span6">
+        <center><img src="{{ asset('logo/') }}{{ equipe.logo }}" class="img-polaroid" style="max-height:200px;max-width:200px;" /></center><br />
+        <form class="form" action="{{ path('equipe_modification', {'id': equipe.id } ) }}" method="POST" {{ form_enctype(formAvatar) }}>
+            {{ form_widget(formAvatar.logo) }}<br />
+            {{ form_rest(formAvatar) }}
+            <br /><input type="submit" class="btn btn-primary" value="Modifier"/>
+        </form><hr />
+
+        <form class="form" action="{{ path('equipe_modification', {'id': equipe.id } ) }}" method="POST">
+            {{ form_row(formMdp.ancienmdp) }}
+            {{ form_row(formMdp.newmdp) }}
+            {{ form_row(formMdp.renewmdp) }}
+            {{ form_rest(formMdp) }}
+            <br /><input type="submit" class="btn btn-primary" value="Modifier"/>
+        </form>
+    </div>
+        
+    <div class="visible-phone"><hr /></div>
+    
+    <div class="span6">
+        <form action="{{ path('equipe_modification', {'id': equipe.id } ) }}" method="POST">
+            {{ form_row(formInfo.tag) }}
+            {{ form_row(formInfo.nom) }}
+            {{ form_row(formInfo.site) }}
+            {{ form_row(formInfo.description) }}
+            {{ form_rest(formInfo) }}
+            <br /><input type="submit" class="btn btn-primary" value="Modifier"/>
+        </form>
+    </div>
+        
+</div>
+<script>
+$('#myTab a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+})
+</script>
+{% endblock %}

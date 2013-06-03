@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Confirmation de l'inscription{% endblock %}
+{% block contenu %}
+<style>
+        .alert{
+            margin-bottom:0;
+        }
+</style>
+<center>
+<div class="alert alert-success">
+    <p>Votre compte à été enregistrer, merci de votre inscription. Vous pouvez dès maintenant vous connecter.<br /><br />Vos informations : <br /><br />
+    <strong>Pseudo :</strong> {{ pseudo }}<br />
+    <strong>Email :</strong> {{ email }}<br />
+    </p>
+    <br /><a href="{{ path('utilisateur_connexion') }}" class="btn btn-info"><i class="icon-white icon-user"></i> Me connecter</a>
+</div>
+</center>
+{% endblock %}

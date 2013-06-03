@@ -1,0 +1,27 @@
+{% if messagesLu|length > 0 %}
+<center><strong>{{ messagesLu|length }}</strong> message{% if messagesLu|length > 1 %}s{% endif %}</center><br />
+<table class="table table-condensed table-striped">
+    <thead>
+        <td><center><strong>Sujet</strong></center></td>
+        <td><center><strong>Auteur</strong></center></td>
+        <td><center><strong>Date de récéption</strong></center></td>
+        <td><center><strong>Date de lecture</strong></center></td>
+        <td><center><strong>Lire</strong></center></td>
+        <td><center><strong>Supprimer</strong></center></td>
+    </thead>
+    <tbody>
+    {% for m in messagesLu %}
+        <tr>
+            <td><center><a href="{{ path('mp_lire', {'id': m.id }) }}">{{ m.titre }}</a></center></td>
+            <td><center><a href="{{ path('utilisateur_profil', {'id': m.auteur.id }) }}">{{ m.auteur.pseudo }}</a></center></td>
+            <td><center>{{ m.dateCreation|date('d/m/Y à G\\hi') }}</center></td>
+            <td><center>{{ m.dateOuverture|date('d/m/Y à G\\hi') }}</center></td>
+            <td><center><a href="{{ path('mp_lire', {'id': m.id }) }}"><i class="icon icon-eye-open"></i></a></center></td>
+            <td><center><a href="{{ path('mp_supprimer', {'id': m.id }) }}"><i class="icon icon-trash"></i></a></center></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <center>Aucun message !</center>
+{% endif %}

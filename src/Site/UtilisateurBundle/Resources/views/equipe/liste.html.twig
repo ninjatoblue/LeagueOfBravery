@@ -1,0 +1,74 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Classement des équipes{% endblock %}
+
+{% block contenu %}
+<center><form class="form-search" id="form_recherche" action="{{ path('utilisateur_liste') }}" method="post">
+    <div class="input-append">
+        {{ form_widget(form.motcle, { 'attr': {'class': 'span2 search-query'} }) }} {{ form_rest(form) }}
+        <input type="submit" class="btn btn-info" value="Rechercher" />
+    </div>
+</form>
+<strong>{{ total_users }}</strong> équipe{% if total_users > 1 %}s{% endif %} au total{% if last_page > 1 %} - {{ user_per_page }} par page {% endif %}</center>
+{% if last_page > 1 %}
+    <div class="pagination pagination-mini pagination-centered">
+        <ul><li><a href="{{ path('equipe_liste', {'page': 1 }) }}"><<</a></li>
+            <li><a href="{{ path('equipe_liste', {'page': previous_page }) }}"><</a></li>
+    {% for page in 1..last_page %}
+        {% if page == current_page %}
+            <li class="active"><a href="#">{{ page }}</a></li>
+        {% else %}
+            <li><a href="{{ path('equipe_liste', {'page': page }) }}">{{ page }}</a></li>
+        {% endif %}
+    {% endfor %}
+    <li><a href="{{ path('equipe_liste', {'page': next_page }) }}">></a></li>
+    <li><a href="{{ path('equipe_liste', {'page': last_page }) }}">>></a></li>
+        </ul>
+    </div>
+{% else %}
+    <br />
+{% endif %}
+<div id="resultat_recherche">
+    {% if total_users > 0 %}
+    <table class="table table-condensed table-striped">
+        <thead>
+            <td><center><strong>Place</strong></center></td>
+            <td><center><strong>Nom</strong></center></td>
+            <td><center><strong>Création</strong></center></td>
+            <td><center><strong>Victoires</strong></center></td>
+            <td><center><strong>Défaites</strong></center></td>
+            <td><center><strong>Ratio V/D</strong></center></td>
+        </thead>
+        <tbody>
+        {% for team in teams %}
+            <tr>
+                <td><center>{{ loop.index }}</center></td>
+                <td><center><a href="{{ path('equipe_profil', {'id': team.id } ) }}">[{{ team.tag }}] {{ team.nom }}</a></center></td>
+                <td><center>{{ team.dateCreation|date('d/m/Y à G\\hi') }}</center></td>
+                <td><center><font color="green">{{ team.nbVictoire }}</font></center></td>
+                <td><center><font color="red">{{ team.nbDefaite }}</font></center></td>
+                <td><center>{{ team.ratio }}</center></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <center>Aucun résultat !</center>
+    {% endif %}
+</div>
+{% if last_page > 1 %}
+    <div class="pagination pagination-mini pagination-centered">
+        <ul><li><a href="{{ path('equipe_liste', {'page': 1 }) }}"><<</a></li>
+            <li><a href="{{ path('equipe_liste', {'page': previous_page }) }}"><</a></li>
+    {% for page in 1..last_page %}
+        {% if page == current_page %}
+            <li class="active"><a href="#">{{ page }}</a></li>
+        {% else %}
+            <li><a href="{{ path('equipe_liste', {'page': page }) }}">{{ page }}</a></li>
+        {% endif %}
+    {% endfor %}
+    <li><a href="{{ path('equipe_liste', {'page': next_page }) }}">></a></li>
+    <li><a href="{{ path('equipe_liste', {'page': last_page }) }}">>></a></li>
+        </ul>
+    </div>
+{% endif %}
+{% endblock %}

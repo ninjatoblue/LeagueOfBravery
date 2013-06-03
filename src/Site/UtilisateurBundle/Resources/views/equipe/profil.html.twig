@@ -1,0 +1,108 @@
+{% extends '::base.html.twig' %}
+{% block titre %}{{ equipe.nom }}{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        .page-header{
+            margin-top:0;
+            margin-bottom:15px;
+            padding-bottom:0;
+        }
+        .well{
+            padding-top:10px;
+        }
+        textarea{
+            width:98%;
+            resize:none;
+            height:auto;
+        }
+        .img-polaroid{
+            max-height:225px;
+            max-width:250px;
+        }
+        .page-header{
+            width:100% !important;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    <div class="span8">
+        <div class="page-header">
+            <h3>Informations</h3>
+        </div>
+        <p class="pull-right">
+            <img src="{{ asset('logo/') }}{{ equipe.logo }}" class="img-polaroid" />
+        </p>
+        <strong>Nom :</strong> {{ equipe.nom }}<br /><br />
+        <strong>Tag :</strong> [{{ equipe.tag }}]<br /><br />
+        <strong>Site :</strong> {% if equipe.site %}<a href="{{ equipe.site }}" target="_blank">{{ equipe.site }}</a>{% else %}Non renseigné{% endif %}<br /><br />
+        <strong>Création :</strong> {{ equipe.dateCreation|date('d/m/Y à G\\hi') }}<br /><br />
+        <strong><font color="green">Victoire(s) :</font></strong> {{ equipe.nbVictoire }}<br /><br />
+        <strong><font color="red">Défaite(s) :</font></strong> {{ equipe.nbDefaite }}<br /><br />
+        <strong>Ratio V/D :</strong> {{ equipe.ratio }}<br /><br />
+        {% if equipe.description %}{{ equipe.description|nl2br }}<br /><br />{% endif %}
+        {% if equipe.banni %}<p style="color:red;font-size:1.5em;font-weight:bold;">Cette équipe est banni</p>{% endif %}
+    </div>
+        
+    <div class="span4">
+        <div class="page-header">
+            <h3>Action(s)</h3>
+        </div>
+        <center>
+        {% if app.session.get('id') != equipe.chef.id %}
+            <a href="{{ path('mp_nouveau', { 'id': equipe.chef.id } ) }}" class="btn btn-primary btn-large"><i class="icon-white icon-envelope"></i> Contacter le chef</a>
+        {% else %}
+            <a href="{{ path('equipe_modification', {'id': equipe.id } ) }}" class="btn btn-info btn-large"><i class="icon-white icon-wrench"></i> Modifier l'équipe</a><br /><br />
+            <a href="{{ path('equipe_supression', {'id': equipe.id } ) }}" class="btn btn-danger btn-large"><i class="icon icon-white icon-trash"></i> Supprimer l'équipe</a>
+        {% endif %}
+        {% if verif == true and equipe.chef.id != app.session.get('id') %}
+            <br /><br /><a href="{{ path('equipe_quitter', {'id': equipe.id } ) }}" class="btn btn-danger btn-large"><i class="icon icon-white icon-remove"></i> Quitter l'équipe</a>
+        {% elseif verif == false %}
+            <br /><br /><a href="{{ path('equipe_rejoindre', {'id': equipe.id } ) }}" class="btn btn-success btn-large"><i class="icon icon-white icon-plus"></i> Rejoindre l'équipe</a>
+        {% endif %}
+        {% if app.session.get('rang') == 'Administrateur' and app.session.get('id') != equipe.chef.id %}
+                <br /><br />
+            {% if equipe.banni == 0 %}
+                <a href="{{ path('equipe_ban', {'id':equipe.id }) }}" class="btn btn-danger btn-large"><i class="icon-white icon-ban-circle"></i> Bannir</a>
+            {% else %}
+                <a href="{{ path('equipe_ban', {'id':equipe.id }) }}" class="btn btn-success btn-large"><i class="icon-white icon-ok-sign"></i> Débannir</a>
+            {% endif %}
+        {% endif %}
+        </center>
+    </div>
+</div>
+
+<div class="page-header"><h3>Joueur(s)</h3></div>
+<div class="row-fluid">
+        <table class="table table-condensed table-striped">
+            <center>{{ utilisateurequipe|length }} joueur{% if utilisateurequipe|length > 1 %}s{% endif %}</center>
+            <thead>
+                <td><center><strong>Pseudo</strong></center></td>
+                <td><center><strong>Sexe</strong></center></td>
+                <td><center><strong>E-mail</strong></center></td>
+                <td><center><strong>A rejoint le</strong></center></td>
+                <td><center><strong>Rang</strong></center></td>
+                <td><center><strong>Action(s)</strong></center></td>
+            </thead>
+            <tbody>
+    {% for ue in utilisateurequipe %}
+                <tr>
+                    <td><center><a href="{{ path('utilisateur_profil', {'id': ue.utilisateur.id } ) }}">
+                         {% if app.session.get('id') == ue.utilisateur.id %}<span style="font-weight:bold;">{{ ue.utilisateur.pseudo }}</span>{% else %}{{ ue.utilisateur.pseudo }}{% endif %}
+                    </a></center></td>
+                    <td><center>{% if ue.utilisateur.sexe == "M" %}Homme{% else %}Femme{% endif %}</center></td>
+                    <td><center>{% if ue.utilisateur.emailHide == false %}{{ ue.utilisateur.email }}{% else %}Caché{% endif %}</center></td>
+                    <td><center>{{ ue.datetime|date('d/m/Y à G\\hi') }}</center></td>
+                    <td><center>{{ ue.rang }}</center></td>
+                    <td><center>
+                        <a href="{{ path('mp_nouveau', {'id': ue.utilisateur.id } ) }}"><i class="icon icon-envelope" alt="contacter" title="Envoyer un message"></i></a>
+                        {% if ue.equipe.chef.id == app.session.get('id') and ue.utilisateur.id != app.session.get('id') %}<a href="{{ path('equipe_virer', {'idUtilisateur': ue.utilisateur.id, 'idEquipe': ue.equipe.id } ) }}"><i class="icon icon-remove" alt="virer" title="Virer de l'équipe"></i></a>{% endif %}
+                    </center></td>
+                </tr>
+    {% endfor %}
+            </tbody>
+        </table>
+</div>
+{% endblock %}

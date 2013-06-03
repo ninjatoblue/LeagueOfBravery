@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+{% block titre %}{{ mp.titre }}{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+    ul li{
+        list-style:none;
+    }
+    #avatarauteur{
+        max-height:150px;
+        max-width:150px;
+    }
+    .nav-list .divider{
+        margin-top:0;
+    }
+</style>
+{% endblock %}
+{% block contenu %}
+<div class="row-fluid">
+    <div class="span2 well affix hidden-phone" style="padding-top:8px" id="menu">
+        <ul class="nav nav-list" style="padding:0;">
+            <li class="nav-header">L'Expéditeur</li>
+            <li class="divider"></li>
+            <li><center><a href="{{ path('utilisateur_profil', {'id': mp.auteur.id }) }}">{% if mp.auteur.rang == "Administrateur" %}<span style="color:red;">{{ mp.auteur.pseudo }}</span>{% else %}{{ mp.auteur.pseudo }}{% endif %}</a></center></li>
+            <li class="visible-desktop"><center><img src="{{ asset('avatar/') }}{{ mp.auteur.avatar }}" class="img-polaroid" id="avatarauteur" /></center></li>
+            <li><center><strong>Rang : </strong>{{ mp.auteur.rang }}</center></li>
+            <li><center><strong>Sexe : </strong>{% if mp.auteur.sexe == "F" %}Femme{% else %}Homme{% endif %}</center></li>
+        
+            <li class="nav-header">Le message</li>
+            <li class="divider"></li>
+            <li><center><strong>Sujet : </strong>{{ mp.titre }}</center></li>
+            <li><center><strong>Date : </strong>{{ mp.dateCreation|date('d/m/Y à G\\hi') }}</center></li>
+        
+            {% if app.session.get('id') == mp.receveur.id %}
+                <li class="nav-header">Actions</li>
+                <li class="divider"></li>
+                <li><center><a href="{{ path('mp_nouveau', {'id': mp.auteur.id } ) }}"><i class="icon icon-share-alt"></i> Répondre</a></center></li>
+                <li><center><a href="{{ path('mp_supprimer', {'id': mp.id } ) }}"><i class="icon icon-trash"></i> Supprimer</a></center></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="span9 well pull-right">
+        <h2>{{ mp.titre }}</h2><hr>
+        {{ mp.contenu|raw }}
+        <div class="visible-phone"><hr /><a href="{{ path('mp_supprimer', {'id': mp.id } ) }}"><i class="icon icon-trash"></i> Supprimer</a></div>
+    </div>
+{% endblock %}

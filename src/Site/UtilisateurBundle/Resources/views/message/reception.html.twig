@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Boite de reception{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        ul li{
+            list-style:none;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    {% include 'SiteUtilisateurBundle:message:menu.html.twig' %}
+    <div class="span9 pull-right tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#nonlus" data-toggle="tab">Non lu(s)</a></li>
+            <li><a href="#lus" data-toggle="tab">Lu(s)</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="nonlus">{% include 'SiteUtilisateurBundle:message:nonlus.html.twig' %}</div>
+
+            <div class="tab-pane" id="lus">{% include 'SiteUtilisateurBundle:message:lus.html.twig' %}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

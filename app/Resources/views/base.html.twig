@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block titre %}League of Bravery !{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Site de tournois fun et sérieux sur le MOBA League of Legends">
+        <meta name="author" content="WebenoX">
+        <meta name="copyright" content="©WebenoX" />
+        {% block css %}
+            <link rel="stylesheet" href="{{ asset('css/cosmo.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.min.css') }}" />
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <style type="text/css">
+                body{
+                    margin-top:70px;
+                    margin-bottom:60px;
+                }
+                @media (max-width: 979px) {
+                    body {
+                        margin-top:0;
+                        margin-bottom:0;
+                    }
+                }
+                .page-header{
+                    border-bottom:1px solid #0db1f9;
+                    width:101%;
+                }
+                hr{
+                    border-bottom:1px solid #0db1f9;
+                }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target="#nav1">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>                
+                        <div class="nav-collapse collapse" id="nav1">
+                            <ul class="nav">
+                                <li><a href="{{ path('index') }}"><i class="icon icon-white icon-home"></i></a></li>
+                                <li class="divider-vertical"></li>
+                                <li><a href="{{ path('utilisateur_liste') }}">Membres</a></li>
+                                <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">Equipes <span class="caret"></span> </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ path('equipe_liste') }}"><i class="icon icon-list"></i> Classement</a></li>
+                                        <li><a href="{{ path('equipe_gestion') }}"><i class="icon icon-wrench"></i> Mes équipes</a></li>
+                                        <li><a href="{{ path('equipe_creation') }}"><i class="icon icon-plus"></i> Créer mon équipe</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tournois <span class="caret"></span> </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#"><i class="icon icon-list"></i> Liste</a></li>
+                                        <li><a href="#"><i class="icon icon-wrench"></i> Gérer mes tournois</a></li>
+                                        <li><a href="#"><i class="icon icon-plus"></i> Créer un tournois</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            {{ render(controller('SiteUtilisateurBundle:Utilisateur:Panel')) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+            
+        <div class="container">
+            {% block contenu %}
+            {% endblock %}
+        </div>
+        
+        <footer class="navbar navbar-inverse navbar-fixed-bottom">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target="#nav2">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="nav-collapse collapse" style="height:0;" id="nav2">
+                        <ul class="nav">
+                            <li><p class="navbar-text"><strong>&copy; 2013 league-of-bravery.com</strong></p></li>
+                            <li><a href="">Mentions légales</a></li>
+                            <li><a href="{{ path('contact') }}">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

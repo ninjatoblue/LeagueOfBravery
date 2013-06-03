@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+{% block css %}
+{{ parent() }}
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    <div class="span7 visible-desktop">
+        
+    </div>
+    
+    <div class="span5 visible-desktop">
+        
+    </div>
+
+    <div class="hidden-desktop">
+        
+    </div>
+        
+</div>
+{% endblock %}

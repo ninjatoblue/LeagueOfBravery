@@ -1,0 +1,11 @@
+<li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Thèmes <b class="caret"></b></a>
+    <ul class="dropdown-menu" id="swatch-menu">
+        {% for t in themes %}
+        <li><a href="{{ path('theme', {'id': t.id} ) }}">{{ t.nom|title }}</a></li>
+        {% if t.nom == "cerulean" %}<li class="divider"></li>{% endif %}
+        {% endfor %}
+        <li class="divider"></li>
+        <li><a href="{{ path('theme') }}">Voir les composants</a></li>
+    </ul>
+</li>

@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Mot de passe oublié{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        ul li{
+            list-style:none;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    {% if app.request.attributes.get('salt') is null %}
+    <form class="well span5" style="float:none;margin:0 auto;" action="{{ path('utilisateur_mdpoublie') }}" method="POST">
+    {{ form_row(form.email, { 'attr': {'class': 'span12'} }) }}
+    {{ form_rest(form) }}
+        <br /><input type="submit" class="btn btn-primary" value="Envoyer" />
+    </form>
+    {% else %}
+    <form class="well span5" style="float:none;margin:0 auto;" action="{{ path('utilisateur_mdpoublie') }}" method="POST">
+    {{ form_row(form.newmdp, { 'attr': {'class': 'span12'} }) }}
+    {{ form_row(form.renewmdp, { 'attr': {'class': 'span12'} }) }}
+    {{ form_rest(form) }}
+        <br /><input type="submit" class="btn btn-primary" value="Envoyer" />
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

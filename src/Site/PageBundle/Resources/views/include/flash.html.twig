@@ -1,0 +1,28 @@
+<center>
+{% for key, flash in app.session.FlashBag.get('success') %}
+<div class="alert alert-block alert-success" id="{{ loop.index }}success" style="margin-top:20px;">
+    <button type="button" class="close">x</button>
+    {{ flash }}
+</div>
+<script>
+$(function(){
+    $(".close").click(function() {
+    $("#{{ loop.index }}success").hide("slow");
+});
+});
+</script>
+{% endfor %}
+{% for key, flash in app.session.FlashBag.get('error') %}
+<div class="alert alert-block alert-error" id="{{ loop.index }}error" style="margin-top:20px;">
+    <button type="button" class="close">x</button>
+    {{ flash }}
+</div>
+<script>
+$(function(){
+    $(".close").click(function() {
+    $("#{{ loop.index }}error").hide("slow");
+});
+});
+</script>
+{% endfor %}
+</center>

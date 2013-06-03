@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Livre d'or | WebenoX{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        ul li{
+            list-style:none;
+        }
+        textarea{
+            width:98.5%;
+            height:150px;
+            resize:none;
+        }
+        input{
+            width:100%;
+        }
+        table{
+            width:100%;
+        }
+        section{
+            padding-bottom:10px;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="page-header"><h2>Livre d'or</h2></div>
+{% if livre|length > 0 %}
+    {% for l in livre %}
+    <div class="well" style="padding-bottom:30px;"><p style="text-align:justify;">{{ l.contenu }}</p>
+        <br /><span class="pull-right" style="color:#b8b6b4;">{{ l.pseudo }} - {{ l.date|date('d/m/Y à H\\hi') }}</span>
+    </div>
+    {% endfor %}
+{% else %}
+    <center><br /><p>Aucun témoinage dans le livre d'or actuellement</p><br /><br /></center>
+{% endif %}
+            
+<form class="well" action="{{ path('livredor') }}" method="POST">
+    {% if app.session.get('pseudo') %}
+        {{ form_widget(form.pseudo, {'attr': {'class': 'span3', 'placeholder': 'Votre nom', 'value': app.session.get('pseudo'), 'readonly': 'true' } } ) }}
+    {% else %}
+        {{ form_widget(form.pseudo, {'attr': {'class': 'span3', 'placeholder': 'Votre nom'} } ) }}
+    {% endif %}
+    {{ form_widget(form.contenu, {'attr': {'placeholder': 'Message' } } ) }}
+    {{ form_rest(form) }}
+    <br /><input type="submit" class="btn btn-primary" value="Envoyer" />
+</form>
+{% endblock %}

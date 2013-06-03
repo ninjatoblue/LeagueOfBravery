@@ -1,0 +1,22 @@
+<ul class="nav pull-right">
+{% if app.session.get('pseudo') %}
+    <li class="dropdown visible-desktop"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {{ app.session.get('pseudo') }} <span class="caret"></span> </a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ path('utilisateur_profil', {'id': app.session.get('id')}) }}"><i class="icon icon-user"></i> Profil</a></li>
+            <li><a href="{{ path('utilisateur_preferences') }}"><i class="icon icon-wrench"></i> Préférences</a></li>
+        </ul>
+    </li>
+    
+    <li class="navbar-link hidden-desktop"><a href="{{ path('utilisateur_profil', {'id': app.session.get('id') } ) }}">Profil</a></li>
+    <li class="navbar-link hidden-desktop"><a href="{{ path('utilisateur_preferences', {'id': app.session.get('id') } ) }}">Préférences</a></li>
+    
+    <li class="divider-vertical"></li>
+    <li><a href="{{ path('mp_reception') }}" class="navbar-link" style="font-size:13px;font-family:Arial"><i class="icon icon-white icon-envelope"></i> {% if messagesNonLu|length > 0 %}({{ messagesNonLu|length }}){% endif %}</a></li>
+    <li class="divider-vertical"></li>
+    <li><a href="{{ path('utilisateur_deconnexion') }}" class="navbar-link" style="font-size:13px;font-family:Arial"><i class="icon icon-white icon-off"></i></a></li>
+{% else %}
+    <li><a href="{{ path('utilisateur_connexion') }}" class="navbar-link">Connexion</a></li>
+    <li class="divider-vertical"></li>
+    <li><a href="{{ path('utilisateur_inscription') }}" class="navbar-link">Inscription</a></li>
+{% endif %}
+</ul>

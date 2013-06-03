@@ -1,0 +1,63 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Mes équipes{% endblock %}
+{% block contenu %}
+<style>
+        ul li{
+            color:red;
+        }
+        hr{
+            margin-top:0;
+        }
+        select{
+            width:auto;
+        }
+        h4{
+            margin-top:0;
+        }
+        textarea{
+            width:100%;
+            height:200px;
+            resize:none;
+        }
+        input{
+            width:98%;
+        }
+</style>
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="page-header" style="margin-top:0;"><h3>Mes équipes</h3></div>
+<div class="row-fluid">
+    {% if utilisateurequipe|length > 0 %}
+        <table class="table table-condensed table-striped">
+            <thead>
+                <td><center><strong>Nom</strong></center></td>
+                <td><center><strong>Date de création</strong></center></td>
+                <td><center><strong>Site</strong></center></td>
+                <td><center><strong>Chef de l'équipe</strong></center></td>
+                <td><center><strong>Action(s)</strong></center></td>
+            </thead>
+            <tbody>
+    {% for ue in utilisateurequipe %}
+                <tr>
+                    <td><center><a href="{{ path('equipe_profil', {'id': ue.equipe.id } ) }}">[{{ ue.equipe.tag }}]{{ ue.equipe.nom }}</a></center></td>
+                    <td><center>{{ ue.equipe.dateCreation|date('d/m/Y') }}</center></td>
+                    <td><center>{% if ue.equipe.site is not null %}<a href="{{ ue.equipe.site }}" target="_blank">{{ ue.equipe.site }}</a>{% else %}Non renseigné{% endif %}</center></td>
+                    <td><center><a href="{{ path('utilisateur_profil', {'id': ue.equipe.chef.id } ) }}">{% if ue.equipe.chef.id == app.session.get('id') %}<span style="font-weight:bold;">{{ ue.equipe.chef.pseudo }}</span>{% else %}{{ ue.equipe.chef.pseudo }}{% endif %}</a></center></td>
+                    <td><center>
+                        {% if ue.equipe.chef.id == app.session.get('id') %}
+                            <a href="{{ path('equipe_modification', {'id': ue.equipe.id } ) }}"><i class="icon icon-pencil" alt="modifier" title="Modifier"></i></a>
+                            <a href="{{ path('equipe_supression', {'id': ue.equipe.id } ) }}"><i class="icon icon-trash" alt="supprimer" title="Supprimer"></i></a>
+                        {% else %}
+                            <a href="{{ path('mp_nouveau', {'id': ue.equipe.chef.id } ) }}"><i class="icon icon-envelope" alt="contacter" title="Contacter le chef"></i></a>
+                            <a href="{{ path('equipe_quitter', {'id': ue.equipe.id } ) }}"><i class="icon icon-remove" alt="quitter" title="Quitter l'équipe"></i></a>
+                        {% endif %}
+                    </center></td>
+                </tr>
+    {% endfor %}
+            </tbody>
+        </table>
+  {% else %}
+      <br /><center><p>Vous ne faites partie d'aucune équipe.</p>
+      <p><a href="{{ path('equipe_creation') }}">Créer mon équipe.</a></p></center>
+    {% endif %}
+</div>
+{% endblock %}

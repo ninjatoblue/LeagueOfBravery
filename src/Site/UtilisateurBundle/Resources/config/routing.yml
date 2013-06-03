@@ -1,0 +1,69 @@
+utilisateur_inscription:
+    pattern: /inscription
+    defaults: { _controller: SiteUtilisateurBundle:Utilisateur:inscription }
+    
+utilisateur_confirmationInscription:
+    pattern: /inscription/confirmation/{salt}/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Utilisateur:confirmationInscription }
+    requirements:
+      id: \d+
+    
+utilisateur_connexion:
+    pattern:   /connexion
+    defaults:  { _controller: SiteUtilisateurBundle:Utilisateur:connexion }
+    
+utilisateur_deconnexion:
+    pattern: /deconnexion
+    defaults:  { _controller: SiteUtilisateurBundle:Utilisateur:deconnexion }
+    
+utilisateur_liste:
+    pattern: /liste/{page}
+    defaults: { _controller: SiteUtilisateurBundle:Utilisateur:liste, page: 1 }
+    
+utilisateur_profil:
+    pattern: /profil/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Utilisateur:profil }
+    
+utilisateur_preferences:
+    pattern: /preferences
+    defaults: { _controller: SiteUtilisateurBundle:Utilisateur:preferences }
+    
+utilisateur_ban:
+    pattern: /ban/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Utilisateur:ban }
+    
+utilisateur_mdpoublie:
+    pattern: /mot-de-passe-oublie/{salt}/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Utilisateur:mdpoublie, salt:null, id:null }
+    requirements:
+      id: \d+
+    
+utilisateur_panel:
+    pattern: /utilisateur/panel
+    defaults: { _controller: SiteUtilisateurBundle:Utilisateur:panel }
+    requirements:
+        _method: _internal
+    
+# MP
+
+mp_nouveau:
+    pattern: /message/nouveau/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Message:nouveau, id:null }
+    requirements:
+      id: \d+
+    
+mp_reception:
+    pattern: /message/boite-de-reception
+    defaults: { _controller: SiteUtilisateurBundle:Message:reception }
+    
+mp_lire:
+    pattern: /message/lire/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Message:lire }
+        
+mp_supprimer:
+    pattern: /message/supprimer/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Message:supprimer }
+    
+mp_envoyes:
+    pattern: /message/envoyes
+    defaults: { _controller: SiteUtilisateurBundle:Message:envoyes }

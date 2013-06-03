@@ -1,0 +1,7 @@
+parameters:
+#    site_commentaire.example.class: Site\CommentaireBundle\Example
+
+services:
+#    site_commentaire.example:
+#        class: %site_commentaire.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

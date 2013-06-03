@@ -1,0 +1,80 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Liste des membres{% endblock %}
+
+{% block contenu %}
+<center><form class="form-search" id="form_recherche" action="{{ path('utilisateur_liste') }}" method="post">
+    <div class="input-append">
+        {{ form_widget(form.motcle, { 'attr': {'class': 'span2 search-query'} }) }} {{ form_rest(form) }}
+        <input type="submit" class="btn btn-info" value="Rechercher" />
+    </div>
+</form>
+<strong>{{ total_users }}</strong> utilisateur{% if total_users > 1 %}s{% endif %} au total{% if last_page > 1 %} - {{ user_per_page }} par page {% endif %}</center>
+{% if last_page > 1 %}
+    <div class="pagination pagination-mini pagination-centered">
+        <ul><li><a href="{{ path('utilisateur_liste', {'page': 1 }) }}"><<</a></li>
+            <li><a href="{{ path('utilisateur_liste', {'page': previous_page }) }}"><</a></li>
+    {% for page in 1..last_page %}
+        {% if page == current_page %}
+            <li class="active"><a href="#">{{ page }}</a></li>
+        {% else %}
+            <li><a href="{{ path('utilisateur_liste', {'page': page }) }}">{{ page }}</a></li>
+        {% endif %}
+    {% endfor %}
+    <li><a href="{{ path('utilisateur_liste', {'page': next_page }) }}">></a></li>
+    <li><a href="{{ path('utilisateur_liste', {'page': last_page }) }}">>></a></li>
+        </ul>
+    </div>
+{% else %}
+    <br />
+{% endif %}
+<div id="resultat_recherche">
+    {% if total_users > 0 %}
+    <table class="table table-condensed table-striped">
+        <thead>
+            <td><center><strong>Place</strong></center></td>
+            <td><center><strong>Pseudo</strong></center></td>
+            <td><center><strong>Rang</strong></center></td>
+            <td><center><strong>Inscription</strong></center></td>
+            <td><center><strong>Ratio V/D</strong></center></td>
+            <td><center><strong>Dernière connexion</strong></center></td>
+            <td><center><strong>Message privé</strong></center></td>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><center>{{ loop.index }}</center></td>
+                <td><center><a href="{{ path('utilisateur_profil', {'id': user.id }) }}">
+                    {% if user.rang == "Administrateur" %}<span style="color:red;">{{ user.pseudo }}</span>
+                    {% elseif user.sexe == "F" %}<span style="color:magenta;">{{ user.pseudo }}</span>
+                    {% else %}{{ user.pseudo }}
+                    {% endif %}</a></center></td>
+                <td><center>{{ user.rang }}</center></td>
+                <td><center>{{ user.dateInscription|date('d/m/Y à G\\hi') }}</center></td>
+                <td><center>{{ user.ratio }}</center></td>
+                <td><center>{% if user.dateConnexion %}{{ user.dateConnexion|date('d/m/Y à G\\hi') }}{% else %}Jamais{% endif %}</center></td>
+                <td><center><a href="{{ path('mp_nouveau', { 'id': user.id } ) }}"><i class="icon icon-envelope"></i></a></center></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <center>Aucun résultat !</center>
+    {% endif %}
+</div>
+{% if last_page > 1 %}
+    <div class="pagination pagination-mini pagination-centered">
+        <ul><li><a href="{{ path('utilisateur_liste', {'page': 1 }) }}"><<</a></li>
+            <li><a href="{{ path('utilisateur_liste', {'page': previous_page }) }}"><</a></li>
+    {% for page in 1..last_page %}
+        {% if page == current_page %}
+            <li class="active"><a href="#">{{ page }}</a></li>
+        {% else %}
+            <li><a href="{{ path('utilisateur_liste', {'page': page }) }}">{{ page }}</a></li>
+        {% endif %}
+    {% endfor %}
+    <li><a href="{{ path('utilisateur_liste', {'page': next_page }) }}">></a></li>
+    <li><a href="{{ path('utilisateur_liste', {'page': last_page }) }}">>></a></li>
+        </ul>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+equipe_creation:
+    pattern: /creation
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:creation }
+    
+equipe_gestion:
+    pattern: /mes-equipes
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:gestion }
+    
+equipe_profil:
+    pattern: /profil/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:profil }
+    requirements:
+      id: \d+
+      
+equipe_modification:
+    pattern: /modifier/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:modifier }
+    requirements:
+      id: \d+
+      
+equipe_liste:
+    pattern: /liste/{page}
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:liste, page: 1 }
+      
+equipe_rejoindre:
+    pattern: /rejoindre/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:rejoindre }
+    requirements:
+      id: \d+
+
+equipe_quitter:
+    pattern: /quitter/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:quitter }
+    requirements:
+      id: \d+
+      
+equipe_virer:
+    pattern: /virer/{idUtilisateur}-{idEquipe}
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:virer }
+    requirements:
+      idUtilisateur: \d+
+      idEquipe: \d+
+
+equipe_supression:
+    pattern: /supression/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:supression }
+    requirements:
+      id: \d+
+      
+equipe_ban:
+    pattern: /bannir/{id}
+    defaults: { _controller: SiteUtilisateurBundle:Equipe:bannir }
+    requirements:
+      id: \d+

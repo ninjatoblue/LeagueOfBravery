@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+{% block titre %}Nouveau message{% endblock %}
+{% block css %}
+{{ parent() }}
+<style>
+        ul li{
+            list-style:none;
+        }
+        textarea{
+            width:98.5%;
+            height:200px;
+            resize:none;
+        }
+        input{
+            width:100%;
+            color:black;
+        }
+        table{
+            width:100%;
+        }
+</style>
+{% endblock %}
+{% block contenu %}
+{% include 'SitePageBundle:include:flash.html.twig' %}
+<div class="row-fluid">
+    {% include 'SiteUtilisateurBundle:message:menu.html.twig' %}
+    <div class="span9">
+        {% if messagesEnvoye|length > 0 %}
+            <center><strong>{{ messagesEnvoye|length }}</strong> message{% if messagesEnvoye|length > 1 %}s{% endif %} envoyé{% if messagesEnvoye|length > 1 %}s{% endif %}</center><br />
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <td><center><strong>Sujet</strong></center></td>
+                    <td><center><strong>Destinataire</strong></center></td>
+                    <td><center><strong>Date</strong></center></td>
+                    <td><center><strong>Etat</strong></center></td>
+                    <td><center><strong>Lire</strong></center></td>
+                </thead>
+                <tbody>
+                {% for m in messagesEnvoye %}
+                    <tr>
+                        <td><center>{{ m.titre }}</a></center></td>
+                        <td><center><a href="{{ path('utilisateur_profil', {'id': m.receveur.id }) }}">{{ m.receveur.pseudo }}</a></center></td>
+                        <td><center>{{ m.dateCreation|date('d/m/Y à G\\hi') }}</center></td>
+                        <td><center>{% if m.etat == false %}Non lu{% else %}Lu{% endif %}</center></td>
+                        <td><center><a href="{{ path('mp_lire', {'id': m.id }) }}"><i class="icon icon-white icon-eye-open"></i></a></center></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <center>Aucun message envoyé !</center>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
